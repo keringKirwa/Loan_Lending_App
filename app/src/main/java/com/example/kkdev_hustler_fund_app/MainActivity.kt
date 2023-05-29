@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,14 +22,12 @@ import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -40,10 +39,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,13 +48,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.kkdev_hustler_fund_app.navigations.Routes
+import com.example.kkdev_hustler_fund_app.ui.theme.DividerColor
 import com.example.kkdev_hustler_fund_app.ui.theme.Kkdev_Hustler_Fund_AppTheme
 import com.example.kkdev_hustler_fund_app.ui.theme.MyColors
+import com.example.kkdev_hustler_fund_app.ui.theme.PrimaryColor
 
 class MainActivity : ComponentActivity() {
 
@@ -66,40 +71,45 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Kkdev_Hustler_Fund_AppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                   HomeScreenPreview()
-                }
-            }
+               MyApp()
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
+fun MyApp() {
+    val navController = rememberNavController()
 
-    Kkdev_Hustler_Fund_AppTheme {
-        HomeScreen()
+    NavHost(navController = navController, startDestination = Routes.LoginScreenRoute.routeName) {
+
+        composable(Routes.HomeScreenRoute.routeName) {
+            HomeScreen(onNavigate = { navController.navigate(Routes.LoginScreenRoute.routeName) })
+
+        }
+        composable(Routes.LoginScreenRoute.routeName) {
+            LoginScreenTest(onNavigate = { navController.navigate(Routes.HomeScreenRoute.routeName) })
+
+        }
+
     }
+
 }
 @Composable
-fun HomeScreen(){
+fun HomeScreen(onNavigate:()->Unit){
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.LightGray)
         .safeContentPadding()
     ){
+        Image(painter = painterResource(id = R.drawable.ic_launcher_background_main), contentDescription = "",
+        modifier = Modifier
+            .fillMaxWidth()
+            .offset(0.dp, (-16).dp)
+            .clip(shape = RoundedCornerShape(bottomEnd = 0.dp, bottomStart = 0.dp)), contentScale = ContentScale.FillWidth,)
 
-        Image(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "",
-            modifier = Modifier
-                .fillMaxWidth()
-                .offset(0.dp, (-16).dp)
-                .clip(shape = RoundedCornerShape(bottomEnd = 0.dp, bottomStart = 0.dp)), contentScale = ContentScale.FillWidth,)
 
+       
         Column(modifier = Modifier
             .fillMaxWidth()
             .background(Color.Transparent)
@@ -107,7 +117,9 @@ fun HomeScreen(){
 
         ){
             SearchRow()
+            Spacer(modifier = Modifier.height(16.dp))
             AccountInfoRow()
+            Spacer(modifier = Modifier.height(16.dp))
             Promotions()
         }
     }
@@ -135,37 +147,20 @@ fun SearchRow() {
         IconButton(
             onClick = { /*TODO*/ },
         ) {
-            Box(
-                modifier = Modifier
-                    .size(34.dp)
-                    .background(Color.White, shape = CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    Icons.Filled.Search,
-                    contentDescription = "Search",
-                    tint = Color.Black,
-                    modifier = Modifier.size(30.dp)
-                )
-            }
+            Icon(imageVector= Icons.Filled.Favorite,
+                contentDescription = "Search",
+                tint = Color.White,
+                modifier = Modifier.size(30.dp)
+            )
         }
         IconButton(onClick = { /*TODO*/ }) {
-            Box(
-                modifier = Modifier
-                    .size(34.dp)
-                    .background(Color.White, shape = CircleShape)
+            Icon(
+                imageVector= Icons.Outlined.Notifications,
+                contentDescription = "Settings",
 
-                    ,
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    Icons.Default.Settings,
-                    contentDescription = "Settings",
-
-                    tint = Color.Black,
-                    modifier = Modifier.size(34.dp)
-                )
-            }
+                tint = Color.White,
+                modifier = Modifier.size(34.dp)
+            )
         }
         
     }
@@ -177,13 +172,17 @@ fun SearchRow() {
 @Composable
 fun CustomTextField(
 ) {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
+    var text =  remember { mutableStateOf(TextFieldValue("")) }
     TextField(
-        value = text,
+
+        value = text.value,
         singleLine = true,
         onValueChange = {
-            text = it
+            text.value = it
         },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text
+        ),
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
@@ -199,59 +198,74 @@ fun CustomTextField(
 
 @Composable
 fun AccountInfoRow() {
+
     Spacer(modifier = Modifier.padding(5.dp))
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(0.dp, 8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
+            .padding(horizontal = 16.dp)
+            .height(64.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
+        shape = RoundedCornerShape(8.dp)
 
             ) {
-        Row( modifier = Modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .padding(20.dp) ,
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround) {
-            IconButton(onClick = { /*TODO*/ }) {
+        Row(modifier =  Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+            QrButton()
+            VerticalDivider()
 
-            }
-            Column(
-                modifier = Modifier.padding(horizontal = 3.dp)
-            ) {
-                Icon(
-                    Icons.Default.Info,
-                    contentDescription = "Settings",
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .weight(1f)) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(painter = painterResource(id =R.drawable.ic_money ), contentDescription ="", tint = Color.Green )
+                    
+                }
+                Column() {
+                    Text(text ="$120", fontSize = 16.sp, fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold )
+                    Text(text ="Top Up", color= PrimaryColor)
+                    
+                }
 
-                    tint =Color.Green ,
-                    modifier = Modifier.size(34.dp)
-                )
-                Text(text = "Account Info")
             }
             VerticalDivider()
-            Column(
-                modifier = Modifier.padding(horizontal = 3.dp)
-            ) {
-                Row(
-                    modifier=Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    Icon(
-                        Icons.Default.Info,
-                        contentDescription = "Settings",
-
-                        tint = Color.Gray,
-                        modifier = Modifier.size(34.dp)
-                    )
-                    Text(text = "Account Info")
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .weight(1f)) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(painter = painterResource(id =R.drawable.ic_coin ), contentDescription ="", tint = PrimaryColor )
 
                 }
+                Column() {
+                    Text(text ="$10", fontSize = 16.sp, fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold )
+                    Text(text ="Points", color= Color.LightGray, fontSize = 12.sp)
+
+                }
+
             }
 
+            
         }
-        
+
+    }
+}
+
+@Composable
+fun QrButton() {
+    IconButton(
+        onClick = {},
+        modifier = Modifier
+            .fillMaxHeight()
+            .aspectRatio(1f)
+
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_scan),
+            contentDescription = "",
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        )
     }
 }
 
@@ -259,12 +273,15 @@ fun AccountInfoRow() {
 @Composable
 fun VerticalDivider() {
     Divider(
-        color = Color.Gray,
+        color = DividerColor,
         modifier = Modifier
             .width(1.dp)
-            .fillMaxHeight()
+            .height(45.dp)
     )
 }
+
+
+
 
 
 @Composable
@@ -280,7 +297,7 @@ fun Promotions() {
                 title = "Fruit",
                 subtitle = "Start @",
                 header = "$1",
-                backgroundColor = MyColors.Orange
+                backgroundColor = PrimaryColor
             )
         }
         item {
@@ -292,10 +309,17 @@ fun Promotions() {
                 backgroundColor= MyColors.LightBlue
             )
         }
+        item {
+            PromotionItem(
+                imagePainter = painterResource(id = R.drawable.bank_image_2),
+                title = "Meat",
+                subtitle = "Discount",
+                header = "20%",
+                backgroundColor= MyColors.LightBlue
+            )
+        }
     }
 }
-
-
 @Composable
 fun PromotionItem(
     title: String = "",
@@ -305,7 +329,7 @@ fun PromotionItem(
     imagePainter: Painter
 ) {
     Card(
-        Modifier.width(300.dp),
+        Modifier.width(250.dp),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = backgroundColor)
 
@@ -331,5 +355,5 @@ fun PromotionItem(
             )
         }
     }
-}
+}}
 

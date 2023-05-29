@@ -11,6 +11,7 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 val WHITE = Color(0xFFFFFFFF)
 val PrimaryColor = Color(0xFFFDA858)
+val DividerColor= Color(0xFFF1F1F1)
 
 
 

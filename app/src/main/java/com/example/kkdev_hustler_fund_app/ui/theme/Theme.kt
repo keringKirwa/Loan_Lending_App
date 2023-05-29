@@ -6,6 +6,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorScheme = darkColorScheme(
@@ -48,7 +50,7 @@ fun Kkdev_Hustler_Fund_AppTheme(
 
 @Composable
 fun ChangeSystemBarsColor() {
-    val statusBarsColor = MyColors.Orange
+    val statusBarsColor = PrimaryColor
 
     val systemUiController = rememberSystemUiController()
     SideEffect {
@@ -56,6 +58,7 @@ fun ChangeSystemBarsColor() {
             color = statusBarsColor,
             darkIcons = false
         )
+        systemUiController.setNavigationBarColor(Color.White, darkIcons = false)
     }
 }
 
