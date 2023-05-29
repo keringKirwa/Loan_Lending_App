@@ -50,6 +50,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.kkdev_hustler_fund_app.R
 import com.example.kkdev_hustler_fund_app.ui.theme.DividerColor
 import com.example.kkdev_hustler_fund_app.ui.theme.MyColors

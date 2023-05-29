@@ -1,8 +1,9 @@
 package com.example.kkdev_hustler_fund_app.navigations
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,33 +12,30 @@ import com.example.kkdev_hustler_fund_app.screens.HomeScreen
 import com.example.kkdev_hustler_fund_app.screens.LoginScreenTest
 
 object Navigation {
+     @SuppressLint("CompositionLocalNaming")
+     val navControllerLocal = staticCompositionLocalOf<NavController> {
+        error("NavController not provided")
+    }
 
     @Composable
-    fun SetupNavigation() {
+    fun OnSetUpNavigationGraph() {
         val navController = rememberNavController()
-        remember { navController }
-
-        NavHost(navController = navController, startDestination = Route.LoginScreenRoute.routeName) {
-
-
-            composable(Route.LoginScreenRoute.routeName) {
-                LoginScreenTest()
-
+        CompositionLocalProvider(navControllerLocal provides navController) {
+            NavHost(navController = navController, startDestination = Route.LoginScreenRoute.routeName) {
+                composable(Route.LoginScreenRoute.routeName) {
+                    LoginScreenTest()
+                }
+                composable(Route.HomeScreenRoute.routeName) {
+                    HomeScreen()
+                }
             }
-            composable(Route.HomeScreenRoute.routeName) {
-                HomeScreen()
-
-            }
-
         }
     }
 
-    fun onNavigate(route: Route, navController: NavController){
-        navController.navigate(route.routeName)
-
+    @Composable
+    fun ProvideNavController(navController: NavController, content: @Composable () -> Unit) {
+        CompositionLocalProvider(navControllerLocal provides navController, content = content)
     }
-
-
-
-
 }
+
+

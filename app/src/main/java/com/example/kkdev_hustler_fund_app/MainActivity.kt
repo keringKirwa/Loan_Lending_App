@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun MyApp() {
-    Navigation.SetupNavigation()
+    Navigation.OnSetUpNavigationGraph()
 
 }
 

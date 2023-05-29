@@ -108,9 +108,9 @@ fun LoginScreenTest(){
 
 @Composable
 fun LoginButton() {
-    val navController = rememberNavController()
+    val navController = Navigation.navControllerLocal.current
     Button(
-        onClick = {Navigation.onNavigate(route = Route.HomeScreenRoute, navController ) },
+        onClick = {navController.navigate(Route.HomeScreenRoute.routeName) },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
