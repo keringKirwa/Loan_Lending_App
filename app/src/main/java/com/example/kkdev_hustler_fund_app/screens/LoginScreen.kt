@@ -1,4 +1,4 @@
-package com.example.kkdev_hustler_fund_app
+package com.example.kkdev_hustler_fund_app.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -41,11 +41,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
+import com.example.kkdev_hustler_fund_app.navigations.Navigation
+import com.example.kkdev_hustler_fund_app.navigations.Route
 import com.example.kkdev_hustler_fund_app.ui.theme.PrimaryColor
 import com.example.kkdev_hustler_fund_app.ui.theme.customRoundedShape
 
 @Composable
-fun LoginScreenTest(onNavigate: ()-> Unit){
+fun LoginScreenTest(){
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -69,7 +72,14 @@ fun LoginScreenTest(onNavigate: ()-> Unit){
                 .weight(1f)
                 .padding(top = 10.dp, bottom = 0.dp)
                 .fillMaxWidth()
-                .clip(shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp, bottomStart = 0.dp, bottomEnd = 0.dp))
+                .clip(
+                    shape = RoundedCornerShape(
+                        topStart = 20.dp,
+                        topEnd = 20.dp,
+                        bottomStart = 0.dp,
+                        bottomEnd = 0.dp
+                    )
+                )
 
             ) {
                 Column(
@@ -87,7 +97,7 @@ fun LoginScreenTest(onNavigate: ()-> Unit){
                     Spacer(modifier = Modifier.height(16.dp))
                     PasswordTextField()
                     Spacer(modifier = Modifier.height(16.dp))
-                    LoginButton(onNavigate)
+                    LoginButton()
 
                 }
                 
@@ -97,26 +107,25 @@ fun LoginScreenTest(onNavigate: ()-> Unit){
         }
 
 @Composable
-fun LoginButton(onNavigate: () -> Unit) {
+fun LoginButton() {
+    val navController = rememberNavController()
     Button(
-        onClick = {onNavigate.invoke()},
+        onClick = {Navigation.onNavigate(route = Route.HomeScreenRoute, navController ) },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
             .padding(top = 20.dp),
         shape = customRoundedShape,
         colors = ButtonDefaults.buttonColors(
-
             contentColor = Color.White,
             containerColor = PrimaryColor
         ),
         contentPadding = PaddingValues(vertical = 14.dp)
     ) {
-
         Text(text = "Login", fontFamily = FontFamily.Monospace)
     }
-
 }
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
