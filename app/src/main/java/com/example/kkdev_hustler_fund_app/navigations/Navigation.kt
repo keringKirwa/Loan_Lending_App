@@ -32,10 +32,6 @@ object Navigation {
         }
     }
 
-    @Composable
-    fun ProvideNavController(navController: NavController, content: @Composable () -> Unit) {
-        CompositionLocalProvider(navControllerLocal provides navController, content = content)
-    }
 }
 
 

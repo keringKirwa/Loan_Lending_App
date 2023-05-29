@@ -24,8 +24,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -34,6 +34,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,20 +49,21 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.kkdev_hustler_fund_app.R
 import com.example.kkdev_hustler_fund_app.ui.theme.DividerColor
 import com.example.kkdev_hustler_fund_app.ui.theme.MyColors
 import com.example.kkdev_hustler_fund_app.ui.theme.PrimaryColor
+import com.example.kkdev_hustler_fund_app.ui.theme.customRoundedShape
 
-
+@Preview(showBackground = true)
 @Composable
     fun HomeScreen(){
         Box(modifier = Modifier
             .fillMaxSize()
-            .background(Color.LightGray)
+            .background(Color.White)
             .safeContentPadding()
         ){
             Image(painter = painterResource(id = R.drawable.ic_launcher_background_main), contentDescription = "",
@@ -85,9 +87,6 @@ import com.example.kkdev_hustler_fund_app.ui.theme.PrimaryColor
                 Promotions()
             }
         }
-
-
-
     }
 
 
@@ -107,7 +106,7 @@ import com.example.kkdev_hustler_fund_app.ui.theme.PrimaryColor
             IconButton(
                 onClick = { /*TODO*/ },
             ) {
-                Icon(imageVector= Icons.Outlined.Favorite,
+                Icon(imageVector= Icons.Outlined.Settings,
                     contentDescription = "Search",
                     tint = Color.White,
                     modifier = Modifier.size(30.dp)
@@ -122,9 +121,7 @@ import com.example.kkdev_hustler_fund_app.ui.theme.PrimaryColor
                     modifier = Modifier.size(34.dp)
                 )
             }
-
         }
-
 
     }
 
@@ -151,8 +148,8 @@ import com.example.kkdev_hustler_fund_app.ui.theme.PrimaryColor
             },
             label = { Text(text = "Search Items") },
             placeholder = { Text(text = "e.g clothes , food ...") },
+            colors = TextFieldDefaults.textFieldColors(containerColor = Color.White)
         )
-
     }
 
 
@@ -166,11 +163,13 @@ import com.example.kkdev_hustler_fund_app.ui.theme.PrimaryColor
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .height(64.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
-            shape = RoundedCornerShape(8.dp)
+            elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
+            shape = customRoundedShape
 
         ) {
-            Row(modifier =  Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+            Row(modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White), verticalAlignment = Alignment.CenterVertically) {
                 QrButton()
                 VerticalDivider()
 
