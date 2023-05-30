@@ -16,12 +16,10 @@ import kotlinx.coroutines.launch
 
 class AuthViewModel() : ViewModel() {
 
-    val loggedInUser :User ? =null
-
     private val _loginState = MutableStateFlow<User?>(null)
     val loginState: StateFlow<User?> = _loginState
 
-    fun loginUser(email: String, password: String, navController: NavController){
+    fun loginUser(email: String, password: String, navController: NavController ?=null ){
 
         val loginDetails  = LoginDetails(email, password)
 
@@ -33,8 +31,9 @@ class AuthViewModel() : ViewModel() {
                     is RequestResult.Success -> {
                         Log.d("VIEW_MODEL_SUCCESS::", it.data.toString())
 
-                        navController.navigate(Destinations.HomeScreenRoute.routeName)
                         _loginState.value= it.data as User?
+                        navController?.navigate(Destinations.HomeScreenRoute.routeName)
+
                         Log.d("VIEW_MODEL_STATE::",_loginState.value.toString())
 
                     }

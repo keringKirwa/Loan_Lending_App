@@ -7,7 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.kkdev_hustler_fund_app.navigations.Navigation
 import com.example.kkdev_hustler_fund_app.ui.theme.Kkdev_Hustler_Fund_AppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
 

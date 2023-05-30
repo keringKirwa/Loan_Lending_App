@@ -1,5 +1,6 @@
 package com.example.kkdev_hustler_fund_app.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,12 +52,14 @@ import com.example.kkdev_hustler_fund_app.view_models.AuthViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@SuppressLint("SuspiciousIndentation")
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenTest(){
 
     var email by remember {
         mutableStateOf("kelvinKering")
+
     }
     var password by remember {
         mutableStateOf("@077Pqc7rs")
@@ -202,7 +205,8 @@ fun PasswordTextField(
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text
-        ), colors = TextFieldDefaults.textFieldColors(unfocusedIndicatorColor = Color.Black, focusedIndicatorColor = PrimaryColor,   containerColor = Color.White),
+        ),
+        colors = TextFieldDefaults.textFieldColors(unfocusedIndicatorColor = Color.Black, focusedIndicatorColor = PrimaryColor,   containerColor = Color.White),
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.AccountBox,
