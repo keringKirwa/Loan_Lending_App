@@ -36,6 +36,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -52,11 +54,16 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.kkdev_hustler_fund_app.R
 import com.example.kkdev_hustler_fund_app.ui.theme.DividerColor
 import com.example.kkdev_hustler_fund_app.ui.theme.MyColors
 import com.example.kkdev_hustler_fund_app.ui.theme.PrimaryColor
 import com.example.kkdev_hustler_fund_app.ui.theme.customRoundedShape
+import com.example.kkdev_hustler_fund_app.view_models.AuthViewModel
+import com.example.kkdev_hustler_fund_app.models.RequestResult
+import com.example.kkdev_hustler_fund_app.models.User
+
 
 @Preview(showBackground = true)
 @Composable
@@ -315,3 +322,4 @@ import com.example.kkdev_hustler_fund_app.ui.theme.customRoundedShape
             }
         }
     }
+

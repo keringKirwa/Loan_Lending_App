@@ -21,11 +21,11 @@ object Navigation {
     fun OnSetUpNavigationGraph() {
         val navController = rememberNavController()
         CompositionLocalProvider(navControllerLocal provides navController) {
-            NavHost(navController = navController, startDestination = Route.LoginScreenRoute.routeName) {
-                composable(Route.LoginScreenRoute.routeName) {
+            NavHost(navController = navController, startDestination = Destinations.LoginScreenRoute.routeName) {
+                composable(Destinations.LoginScreenRoute.routeName) {
                     LoginScreenTest()
                 }
-                composable(Route.HomeScreenRoute.routeName) {
+                composable(Destinations.HomeScreenRoute.routeName) {
                     HomeScreen()
                 }
             }

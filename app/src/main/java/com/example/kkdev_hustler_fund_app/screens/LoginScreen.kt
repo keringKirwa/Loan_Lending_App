@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,20 +43,33 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.kkdev_hustler_fund_app.navigations.Navigation
-import com.example.kkdev_hustler_fund_app.navigations.Route
 import com.example.kkdev_hustler_fund_app.ui.theme.PrimaryColor
 import com.example.kkdev_hustler_fund_app.ui.theme.customRoundedShape
+import com.example.kkdev_hustler_fund_app.view_models.AuthViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenTest(){
+
+    var email by remember {
+        mutableStateOf("kelvinKering")
+    }
+    var password by remember {
+        mutableStateOf("@077Pqc7rs")
+    }
+    val scope = rememberCoroutineScope()
+
+    val viewModel: AuthViewModel = viewModel()
+
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(PrimaryColor)
-
-            ,
+                .background(PrimaryColor) ,
 
         ) {
             Box(
@@ -98,20 +112,26 @@ fun LoginScreenTest(){
                     Spacer(modifier = Modifier.height(16.dp))
                     PasswordTextField()
                     Spacer(modifier = Modifier.height(16.dp))
-                    LoginButton()
+                    LoginButton(email, password, scope, viewModel)
 
                 }
                 
             }
 
         }
-        }
+
+
+}
 
 @Composable
-fun LoginButton() {
+fun LoginButton(email: String, password: String, scope: CoroutineScope, viewModel: AuthViewModel) {
     val navController = Navigation.navControllerLocal.current
     Button(
-        onClick = {navController.navigate(Route.HomeScreenRoute.routeName) },
+        onClick = {
+                  scope.launch {
+                      viewModel.loginUser(email, password, navController)
+                  }
+                  },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
